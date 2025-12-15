@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso Centurions | Protocolo 2029</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --primary: #ef4444;
+            --primary-glow: rgba(239, 68, 68, 0.6);
+            --gold: #fbbf24;
+            --glass-surface: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-image: radial-gradient(circle at 50% 0%, #1a0505 0%, #050505 70%);
+            overflow: hidden;
+        }
+
+        /* Ambient Animation */
+        .ambient-light {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+            opacity: 0.15;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse 5s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+
+        @keyframes pulse {
+            from {
+                opacity: 0.1;
+            }
+
+            to {
+                opacity: 0.2;
+            }
+        }
+
+        .login-card {
+            background: var(--glass-surface);
+            border: 1px solid var(--glass-border);
+            padding: 50px 40px;
+            border-radius: 24px;
+            text-align: center;
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 80px -20px rgba(0, 0, 0, 0.8);
+            position: relative;
+            z-index: 10;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        h1 {
+            font-weight: 900;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            font-size: 2rem;
+        }
+
+        .sub {
+            font-size: 0.9rem;
+            color: #888;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 1.1rem;
+            transition: 0.3s;
+            letter-spacing: 2px;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.15);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        input::placeholder {
+            color: #555;
+            letter-spacing: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 18px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 20px 40px -10px var(--primary-glow);
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transform: rotate(45deg) translateY(-100%);
+            transition: 0.5s;
+        }
+
+        button:hover::after {
+            transform: rotate(45deg) translateY(100%);
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-size: 0.85rem;
+            margin-top: 15px;
+            min-height: 20px;
+            font-weight: 600;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .error.visible {
+            opacity: 1;
+        }
+
+        .biometrics {
+            margin-top: 20px;
+            font-size: 2rem;
+            color: #333;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .biometrics:hover {
+            color: var(--primary);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-light"></div>
+    <div class="login-card">
+        <h1>CENTURIONS</h1>
+        <div class="sub">Acesso Restrito à Elite</div>
+
+        <div class="input-group">
+            <input type="password" id="pass" placeholder="SENHA DE ACESSO">
+        </div>
+
+        <button onclick="checkLogin()">ENTRAR NO SISTEMA</button>
+
+        <div class="error" id="error-msg">ACESSO NEGADO: Senha Incorreta</div>
+
+        <div class="biometrics" title="Login Biométrico (Em Breve)">
+            Fingerprint
+        </div>
+    </div>
+
+    <script>
+        function checkLogin() {
+            const p = document.getElementById('pass').value;
+            const err = document.getElementById('error-msg');
+
+            // Simple Client-side check (Insecure but functional for MVP)
+            if (p.toLowerCase() === 'elite2029' || p.toLowerCase() === 'centauro') {
+                // Success Animation
+                document.querySelector('button').innerHTML = 'ACESSO AUTORIZADO';
+                document.querySelector('button').style.background = '#22c55e';
+                setTimeout(() => window.location.href = 'membros.html', 800);
+            } else {
+                err.classList.add('visible');
+                document.querySelector('.login-card').animate([
+                    { transform: 'translateX(0)' },
+                    { transform: 'translateX(-10px)' },
+                    { transform: 'translateX(10px)' },
+                    { transform: 'translateX(0)' }
+                ], { duration: 300 });
+            }
+        }
+    </script>
+</body>
+
+</html>

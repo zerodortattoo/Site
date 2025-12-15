@@ -1,0 +1,11 @@
+{
+  "api": {
+    "bodyParser": {
+      "sizeLimit": "1mb"
+    }
+  },
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
+    { "src": "/(.*)", "dest": "/$1" }
+  ]
+}

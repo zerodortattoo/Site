@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocolo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #000;
+      color: #fff;
+      font-family: 'Courier New', monospace;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .headline {
+      margin-top: 5vh;
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: #ff0033;
+      text-align: center;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      text-shadow: 0 0 20px #ff0033;
+    }
+
+    .timer { margin-left: 12px; }
+
+    .warning-text {
+      margin: 2vh 20px 4vh;
+      font-size: 1.4rem;
+      font-weight: 700;
+      text-align: center;
+      color: #fff;               /* branco puro – fica mais limpo */
+      max-width: 90%;
+    }
+
+    .video-placeholder {
+      width: 92%;
+      max-width: 900px;
+      aspect-ratio: 16/9;
+      background: #111;
+      border: 3px solid #ff0033;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #444;
+    }
+
+    .download-btn {
+      margin-bottom: 2vh;
+      padding: 16px 40px;
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #fff;
+      background: #ff0033;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 30px #ff0033;
+      animation: pulse 1.5s infinite;
+    }
+
+    .download-btn:hover,
+    .download-btn:active { transform: scale(1.08); }
+
+    .trust-line {
+      font-size: 0.85rem;
+      color: #888;               /* cinza discreto */
+      margin-bottom: 4vh;
+      opacity: 0.8;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 30px #ff0033; }
+      50% { box-shadow: 0 0 60px #ff0033; }
+    }
+
+    @media (max-width: 480px) {
+      .headline { font-size: 1.9rem; letter-spacing: 3px; }
+      .warning-text { font-size: 1.15rem; margin: 3vh 15px 4vh; }
+      .download-btn { font-size: 1.3rem; padding: 14px 32px; }
+      .trust-line { font-size: 0.8rem; }
+    }
+
+    @media (max-width: 360px) {
+      .headline { font-size: 1.7rem; }
+      .warning-text { font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="headline">ADVERTENCIA: <span class="timer" id="countdown">00:00:00</span></h1>
+
+  <div class="warning-text">
+    Veja antes que este vídeo saia do ar.
+  </div>
+
+  <div class="video-placeholder">
+    [VIDEO PLAYER DE VÍDEO AQUI]
+  </div>
+
+  <button class="download-btn" onclick="alert('Download iniciado...')">
+    BAIXAR PROTOCOLO AGORA
+  </button>
+
+  <div class="trust-line">Pagamento Seguro e Acesso Imediato</div>
+
+  <script>
+    let timeLeft = 600; // 10 minutos
+
+    const timerElement = document.getElementById('countdown');
+
+    const countdown = setInterval(() => {
+      timeLeft--;
+      const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
+      const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
+      const seconds = String(timeLeft % 60).padStart(2, '0');
+
+      timerElement.textContent = `${hours}:${minutes}:${seconds}`;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        timerElement.textContent = "00:00:00";
+      }
+    }, 1000);
+  </script>
+
+</body>
+</html>
